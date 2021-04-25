@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "myapp"
+spec:
+  template:
+    metadata:
+      name: "myapp"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-install-job
+          image: postgres:latest
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "passwd"
+          command:
+            - sh
+            - "-c"
+            - |
+              psql postgresql://myuser:passwd@myapp-postgresql/myapp <<'EOF'
+                CREATE TABLE app_user (id VARCHAR (255) PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, first_name VARCHAR (255) NOT NULL, last_name VARCHAR (255) NOT NULL, email VARCHAR (255) NOT NULL, phone VARCHAR (255) NOT NULL);
+              EOF
+
+  backoffLimit: 0
