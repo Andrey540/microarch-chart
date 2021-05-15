@@ -5,33 +5,35 @@ metadata:
   labels:
     {{- include "microarch-chart.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "microarch-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
         {{- include "microarch-chart.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "microarch-chart.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.container.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.container.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.container.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
           env:
             - name: DB_HOST
               valueFrom:
@@ -58,34 +60,3 @@ spec:
                 secretKeyRef:
                   name: userapp-secret
                   key: DB_PASSWORD
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: web
-              containerPort: {{ .Values.container.port }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.container.port }}
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 2
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: {{ .Values.container.port }}
-            initialDelaySeconds: 10
-            periodSeconds: 5
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}

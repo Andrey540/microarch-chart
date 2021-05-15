@@ -4,7 +4,7 @@ metadata:
   name: userapp-secret
 type: Opaque
 data:
-  DB_HOST: {{ .Values.postgresql.postgresqlHost | b64enc | quote }}
+  DB_HOST: {{ include "postgresql.fullname" . | b64enc | quote }}
   DB_PORT: {{ .Values.postgresql.service.port | b64enc | quote }}
   DB_NAME: {{ .Values.postgresql.postgresqlDatabase | b64enc | quote }}
   DB_USER: {{ .Values.postgresql.postgresqlUsername | b64enc | quote }}

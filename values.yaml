@@ -8,7 +8,7 @@ image:
   repository: andrey540/userapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v7"
+  tag: "v8"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -38,25 +38,20 @@ securityContext: {}
 
 service:
   type: NodePort
-  port: 8000
+  port: 9000
 
 container:
-  port: 8000
+  port: 80
 
 ingress:
   enabled: true
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$3
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: arch.homework
-      paths:
-      - path: /otusapp/([^/]+)($|/)(.*)
-        backend:
-          serviceName: userapp-service
-          servicePort: 8000
-  tls: []
+      paths: ["/otusapp"]
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
@@ -94,3 +89,8 @@ postgresql:
   postgresqlDatabase: myapp
   service:
     port: "5432"
+
+
+metrics:
+  serviceMonitor:
+    enabled: true
