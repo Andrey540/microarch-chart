@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "microarch-chart.fullname" . }}
+  name: {{ include "userapp-chart.fullname" . }}
   labels:
-    {{- include "microarch-chart.labels" . | nindent 4 }}
+    {{- include "userapp-chart.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: web
   selector:
-    {{- include "microarch-chart.selectorLabels" . | nindent 4 }}
+    {{- include "userapp-chart.selectorLabels" . | nindent 4 }}

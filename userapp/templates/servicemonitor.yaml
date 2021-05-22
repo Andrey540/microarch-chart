@@ -2,17 +2,17 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "microarch-chart.fullname" . }}
+  name: {{ include "userapp-chart.fullname" . }}
   labels:
-    {{- include "microarch-chart.labels" . | nindent 4 }}
+    {{- include "userapp-chart.labels" . | nindent 4 }}
 spec:
-  jobLabel: {{ include "microarch-chart.fullname" . }}
+  jobLabel: {{ include "userapp-chart.fullname" . }}
   namespaceSelector:
     matchNames:
       - "{{ $.Release.Namespace }}"
   selector:
     matchLabels:
-      {{- include "microarch-chart.selectorLabels" . | nindent 6 }}
+      {{- include "userapp-chart.selectorLabels" . | nindent 6 }}
   endpoints:
     - interval: 15s
       port: web

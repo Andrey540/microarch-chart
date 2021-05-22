@@ -16,17 +16,12 @@ DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmi
 
 Создаём наймспейс
 ```bash
-kubectl create namespace monitoring
+kubectl create namespace userauth
 ```
 
 Ичпользуем наймспейс поумолчанию
 ```bash
-kubectl config set-context --current --namespace=monitoring
-```
-
-Установить зависимости
-```bash
-helm dependency update ./microarch-chart
+kubectl config set-context --current --namespace=userauth
 ```
 
 Установить prometheus
@@ -56,8 +51,12 @@ kubectl get secret prom-grafana -o jsonpath="{.data.admin-password}" | base64 --
 kubectl port-forward -n default service/prom-kube-prometheus-stack-prometheus 9090
 ```
 
-
-Запустить чарт
+Установить зависимости
 ```bash
-helm install myapp ./microarch-chart
+helm dependency update ./userapp/microarch-chart
+```
+
+Запустить чарт userapp
+```bash
+helm install myapp ./userapp/microarch-chart
 ```

@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "microarch-chart.name" -}}
+{{- define "userauth-chart.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "microarch-chart.fullname" -}}
+{{- define "userauth-chart.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "microarch-chart.chart" -}}
+{{- define "userauth-chart.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "microarch-chart.labels" -}}
-helm.sh/chart: {{ include "microarch-chart.chart" . }}
-{{ include "microarch-chart.selectorLabels" . }}
+{{- define "userauth-chart.labels" -}}
+helm.sh/chart: {{ include "userauth-chart.chart" . }}
+{{ include "userauth-chart.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,28 +45,20 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "microarch-chart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "microarch-chart.name" . }}
+{{- define "userauth-chart.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "userauth-chart.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "microarch-chart.serviceAccountName" -}}
+{{- define "userauth-chart.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "microarch-chart.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "userauth-chart.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "postgresql.fullname" -}}
-{{- printf "%s-%s" .Release.Name "postgresql" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 

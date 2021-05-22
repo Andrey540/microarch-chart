@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "microarch-chart.fullname" . }}
+  name: {{ include "userauth-chart.fullname" . }}
   labels:
-    {{- include "microarch-chart.labels" . | nindent 4 }}
+    {{- include "userauth-chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "microarch-chart.selectorLabels" . | nindent 6 }}
+      {{- include "userauth-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "microarch-chart.selectorLabels" . | nindent 8 }}
+        {{- include "userauth-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -35,28 +35,18 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
           env:
-            - name: DB_HOST
+            - name: USER_APP_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: userauth-config
+                  key: USER_APP_SERVICE_URL
+            - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
-                  key: DB_HOST
-            - name: DB_PORT
+                  name: userauth-secret
+                  key: JWT_PUBLIC_KEY
+            - name: JWT_PRIVATE_KEY
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
-                  key: DB_PORT
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: userapp-secret
-                  key: DB_NAME
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: userapp-secret
-                  key: DB_USER
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: userapp-secret
-                  key: DB_PASSWORD
+                  name: userauth-secret
+                  key: JWT_PRIVATE_KEY

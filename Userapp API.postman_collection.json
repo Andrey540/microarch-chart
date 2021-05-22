@@ -20,13 +20,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/user",
+					"raw": "http://{{baseUrl}}/user/register",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user"
+						"user/register"
 					]
 				},
 				"description": "Create user"
@@ -39,13 +39,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}/user/{{userId}}",
+					"raw": "http://{{baseUrl}}/user/profile/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user",
+						"user/profile",
 						"{{userId}}"
 					]
 				}
@@ -67,13 +67,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/user/{{userId}}",
+					"raw": "http://{{baseUrl}}/user/update/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user",
+						"user/update",
 						"{{userId}}"
 					]
 				}
@@ -86,13 +86,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}/user/{{userId}}",
+					"raw": "http://{{baseUrl}}/user/delete/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"user",
+						"user/delete",
 						"{{userId}}"
 					]
 				}

@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "microarch-chart.fullname" . }}
+  name: {{ include "userapp-chart.fullname" . }}
   labels:
-    {{- include "microarch-chart.labels" . | nindent 4 }}
+    {{- include "userapp-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "microarch-chart.fullname" . }}
+    name: {{ include "userapp-chart.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
