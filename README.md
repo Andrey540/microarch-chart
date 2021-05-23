@@ -1,9 +1,17 @@
 # Запуск простого приложения в helm
 
+Архитектура решения
+
+Логинация
+![login-schema](./README.assets/login-schema.png)
+
+Аутентификация
+![auth-schema](./README.assets/auth-schema.png)
+
 После установки нужно запустить Kubernetes. При необходимости можно изменить используемый драйвер с помощью
 флага `--driver`.
 
-```shell script
+```bash
 minikube start \
 --cpus=4 --memory=8g \
 --cni=flannel \
@@ -53,10 +61,15 @@ kubectl port-forward -n default service/prom-kube-prometheus-stack-prometheus 90
 
 Установить зависимости
 ```bash
-helm dependency update ./userapp/microarch-chart
+helm dependency update ./microarch-chart/userapp
+```
+
+Запустить чарт userauth
+```bash
+helm install userauth ./microarch-chart/userauth
 ```
 
 Запустить чарт userapp
 ```bash
-helm install myapp ./userapp/microarch-chart
+helm install userapp ./microarch-chart/userapp
 ```

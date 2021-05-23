@@ -45,11 +45,12 @@ container:
 
 ingress:
   enabled: true
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
+    - host: arch.homework
+      paths: ["/otusapp/user/(profile|update|delete)(/|$)"]
+  openhosts:
     - host: arch.homework
       paths: ["/otusapp/user"]
   #  - secretName: chart-example-tls

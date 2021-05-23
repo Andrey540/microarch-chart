@@ -12,10 +12,43 @@ metadata:
   labels:
     {{- include "userapp-chart.labels" . | nindent 4 }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/auth-url: "http://userauth-service.userauth.svc.cluster.local:9000/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/otusapp/auth/login"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-User,X-Email,X-UserId,X-First-Name,X-Last-Name"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1/$3
 spec:
   rules:
   {{- range .Values.ingress.hosts }}
+  - host: {{ .host | quote }}
+    http:
+      paths:
+      {{- range .paths }}
+      - path: {{ . }}(.*)
+        backend:
+          serviceName: {{ $fullName }}
+          servicePort: {{ $svcPort }}
+      {{- end }}
+  {{- end }}
+{{- end }}
+---
+{{- if .Values.ingress.enabled -}}
+  {{- $fullName := include "userapp-chart.fullname" . -}}
+  {{- $svcPort := .Values.service.port -}}
+  {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+  {{- else -}}
+apiVersion: extensions/v1beta1
+  {{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-{{ .Chart.Version }}
+  labels:
+    {{- include "userapp-chart.labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  {{- range .Values.ingress.openhosts }}
   - host: {{ .host | quote }}
     http:
       paths:
