@@ -1,0 +1,101 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Authentication",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "basePath": "/otusapp",
+  "paths": {
+    "/auth": {
+      "post": {
+        "operationId": "Authenticate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthenticationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AuthenticationResponse"
+            }
+          },
+          "401": {
+            "description": "User is unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedResponse"
+            }
+          },
+          "500": {
+            "description": "An error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AuthenticationRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "AuthenticationResponse": {
+      "type": "object",
+      "properties": {
+        "IDtoken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "IDtoken"
+      ]
+    },
+    "UnauthorizedResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    }
+  }
+}
