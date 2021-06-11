@@ -8,6 +8,15 @@
 Аутентификация
 ![auth-schema](./README.assets/auth-schema.png)
 
+Создание пользователя
+![auth-schema](./README.assets/create-user-schema.png)
+
+Пополнение счёта
+![auth-schema](./README.assets/put-money-schema.png)
+
+Создание заказа
+![auth-schema](./README.assets/create-order-schema.png)
+
 После установки нужно запустить Kubernetes. При необходимости можно изменить используемый драйвер с помощью
 флага `--driver`.
 
