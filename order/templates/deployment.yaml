@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "userapp-chart.fullname" . }}
+  name: {{ include "order-chart.fullname" . }}
   labels:
-    {{- include "userapp-chart.labels" . | nindent 4 }}
+    {{- include "order-chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "userapp-chart.selectorLabels" . | nindent 6 }}
+      {{- include "order-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "userapp-chart.selectorLabels" . | nindent 8 }}
+        {{- include "order-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -38,40 +38,40 @@ spec:
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: DB_HOST
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: DB_PORT
             - name: DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: DB_NAME
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: DB_USER
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: DB_PASSWORD
             - name: AMQP_HOST
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: AMQP_HOST
             - name: AMQP_USER
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: AMQP_USER
             - name: AMQP_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: userapp-secret
+                  name: order-secret
                   key: AMQP_PASSWORD

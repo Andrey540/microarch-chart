@@ -24,7 +24,7 @@ spec:
     spec:
       restartPolicy: Never
       initContainers:
-        - name: check-db-ready
+        - name: check-db-ready-notification
           image: postgres:latest
           env:
             - name: POSTGRES_HOST
@@ -38,7 +38,7 @@ spec:
               until pg_isready -h $POSTGRES_HOST  -p  $POSTGRES_PORT;
               do echo waiting for database; sleep 2; done;
       containers:
-        - name: post-install-job
+        - name: post-install-job-notification
           env:
             - name: DATABASE_URI
               value: {{ printf "postgresql://%s:%s@%s:%s/%s" .Values.postgresql.postgresqlUsername .Values.postgresql.postgresqlPassword (include "postgresql.fullname" .) .Values.postgresql.service.port .Values.postgresql.postgresqlDatabase  | quote }}
@@ -48,7 +48,9 @@ spec:
             - "-c"
             - |
               psql $DATABASE_URI <<'EOF'
-                CREATE TABLE app_user (id VARCHAR (255) PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, first_name VARCHAR (255) NOT NULL, last_name VARCHAR (255) NOT NULL, email VARCHAR (255) NOT NULL, phone VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL);
+                CREATE TABLE notification (id VARCHAR (255) PRIMARY KEY, user_id VARCHAR (255) NOT NULL, message TEXT NOT NULL, created_at TIMESTAMP NOT NULL);
+                CREATE INDEX user_idx ON notification (user_id);
+                CREATE TABLE notification_user (id VARCHAR (255) PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL);
                 CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
                 CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
                 CREATE INDEX status_idx ON stored_event (status);

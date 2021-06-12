@@ -1,0 +1,8 @@
+enabled: true
+auth:
+  password: guest
+  username: guest
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true

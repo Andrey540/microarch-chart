@@ -33,12 +33,19 @@ DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmi
 
 Создаём наймспейс
 ```bash
-kubectl create namespace userauth
+kubectl create namespace order
 ```
 
 Ичпользуем наймспейс поумолчанию
 ```bash
-kubectl config set-context --current --namespace=userauth
+kubectl config set-context --current --namespace=order
+```
+
+Добавить необходимые рапозитории
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
 ```
 
 Установить prometheus
@@ -48,10 +55,10 @@ helm install prom prometheus-community/kube-prometheus-stack -f microarch-chart/
 
 Устанавливаем через хелм ингресс
 ```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
 helm install nginx ingress-nginx/ingress-nginx -f microarch-chart/nginx-ingress.yaml --atomic
 ```
+
+Дождаться пока ингресс запустится
 
 Запускаем grafana
 ```bash
@@ -65,12 +72,12 @@ kubectl get secret prom-grafana -o jsonpath="{.data.admin-password}" | base64 --
 
 Запускаем prometheus
 ```bash
-kubectl port-forward -n default service/prom-kube-prometheus-stack-prometheus 9090
+kubectl port-forward service/prom-kube-prometheus-stack-prometheus 9090
 ```
 
-Установить зависимости
+Устанавливаем rabbitmq
 ```bash
-helm dependency update ./microarch-chart/userapp
+helm install rabbitmq -f microarch-chart/rabbit.yaml bitnami/rabbitmq
 ```
 
 Запустить чарт userauth
@@ -81,4 +88,19 @@ helm install userauth ./microarch-chart/userauth
 Запустить чарт userapp
 ```bash
 helm install userapp ./microarch-chart/userapp
+```
+
+Запустить чарт billing
+```bash
+helm install billing ./microarch-chart/billing
+```
+
+Запустить чарт order
+```bash
+helm install order ./microarch-chart/order
+```
+
+Запустить чарт notification
+```bash
+helm install notification ./microarch-chart/notification
 ```
