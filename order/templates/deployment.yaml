@@ -75,3 +75,23 @@ spec:
                 secretKeyRef:
                   name: order-secret
                   key: AMQP_PASSWORD
+            - name: AMQP_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: order-config
+                  key: AMQP_ENABLED
+            - name: KAFKA_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: order-secret
+                  key: KAFKA_HOST
+            - name: KAFKA_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: order-secret
+                  key: KAFKA_PORT
+            - name: KAFKA_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: order-config
+                  key: KAFKA_ENABLED

@@ -75,9 +75,15 @@ kubectl get secret prom-grafana -o jsonpath="{.data.admin-password}" | base64 --
 kubectl port-forward service/prom-kube-prometheus-stack-prometheus 9090
 ```
 
-Устанавливаем rabbitmq
+Устанавливаем rabbitmq. В приложении можно отключить использование rabbitmq через параметр окружения AMQP_ENABLED.
 ```bash
 helm install rabbitmq -f microarch-chart/rabbit.yaml bitnami/rabbitmq
+```
+
+Устанавливаем kafka. В приложении можно отключить использование kafka через параметр окружения KAFKA_ENABLED.
+Если включить сразу rabbitmq и kafka, то приложения будет одновременно работать с двумя брокерами и проблем с этим не будет.
+```bash
+helm install kafka -f microarch-chart/kafka.yaml bitnami/kafka
 ```
 
 Запустить чарт userauth

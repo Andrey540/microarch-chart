@@ -1,0 +1,10 @@
+enabled: true
+topics:
+ - name: DomainEvents
+   partitions: 1
+   replicationFactor: 1
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true

@@ -8,7 +8,7 @@ image:
   repository: andrey540/billing
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1"
+  tag: "v2"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -92,6 +92,12 @@ rabbitmq:
   host: "rabbitmq"
   password: guest
   username: guest
+  enabled: 1
+
+kafka:
+  host: "kafka"
+  port: "9092"
+  enabled: 1
 
 metrics:
   serviceMonitor:
