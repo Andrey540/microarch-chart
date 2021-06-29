@@ -56,6 +56,18 @@
               "$ref": "#/definitions/ForbiddenResponse"
             }
           },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/NotFoundResponse"
+            }
+          },
+          "409": {
+            "description": "Request duplicated",
+            "schema": {
+              "$ref": "#/definitions/RequestDuplicatedResponse"
+            }
+          },
           "500": {
             "description": "An error response",
             "schema": {
@@ -212,6 +224,28 @@
       ]
     },
     "ForbiddenResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "NotFoundResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "RequestDuplicatedResponse": {
       "type": "object",
       "properties": {
         "status": {

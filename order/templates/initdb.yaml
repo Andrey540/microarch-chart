@@ -52,6 +52,7 @@ spec:
                 CREATE INDEX user_idx ON my_order (user_id);
                 CREATE TABLE order_user (id VARCHAR (255) PRIMARY KEY);
                 CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
+                CREATE TABLE processed_command (id VARCHAR (255) PRIMARY KEY);
                 CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
                 CREATE INDEX status_idx ON stored_event (status);
               EOF

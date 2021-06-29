@@ -30,6 +30,10 @@ DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmi
 --extra-config=apiserver.authorization-mode=Node,RBAC
 ```
 
+Очистить неймспейс, если был создан ранее
+```bash
+kubectl delete namespace order
+```
 
 Создаём наймспейс
 ```bash
