@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Order",
+    "title": "Billing",
     "version": "version not set"
   },
   "consumes": [
@@ -22,18 +22,24 @@
   "produces": [
     "application/json"
   ],
-  "basePath": "/otusapp/order",
+  "basePath": "/otusapp/billing",
   "paths": {
-    "/create": {
-      "post": {
-        "operationId": "Create",
+    "/api/v1/account/put/{userId}": {
+      "put": {
+        "operationId": "Put money",
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CreateRequest"
+              "$ref": "#/definitions/AccountRequest"
             }
           }
         ],
@@ -41,7 +47,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CreatedResponse"
+              "$ref": "#/definitions/AccountResponse"
             }
           },
           "401": {
@@ -57,7 +63,7 @@
             }
           },
           "404": {
-            "description": "Not found",
+            "description": "User not found",
             "schema": {
               "$ref": "#/definitions/NotFoundResponse"
             }
@@ -77,12 +83,12 @@
         }
       }
     },
-    "/{id}": {
+    "/api/v1/account/{userId}": {
       "get": {
-        "operationId": "Get order",
+        "operationId": "Show money",
         "parameters": [
           {
-            "name": "id",
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -92,7 +98,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/OrderResponse"
+              "$ref": "#/definitions/AccountResponse"
             }
           },
           "401": {
@@ -108,7 +114,7 @@
             }
           },
           "404": {
-            "description": "Order not found"
+            "description": "User not found"
           },
           "500": {
             "description": "An error response",
@@ -119,25 +125,30 @@
         }
       }
     },
-    "/list/{userId}": {
-      "get": {
-        "operationId": "List user orders",
+    "/api/v1/account/withdraw/{userId}": {
+      "put": {
+        "operationId": "Withdraw money",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountRequest"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/OrderResponse"
-              }
+              "$ref": "#/definitions/AccountResponse"
             }
           },
           "401": {
@@ -152,6 +163,18 @@
               "$ref": "#/definitions/ForbiddenResponse"
             }
           },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/NotFoundResponse"
+            }
+          },
+          "409": {
+            "description": "Request duplicated",
+            "schema": {
+              "$ref": "#/definitions/RequestDuplicatedResponse"
+            }
+          },
           "500": {
             "description": "An error response",
             "schema": {
@@ -163,53 +186,26 @@
     }
   },
   "definitions": {
-    "CreateRequest": {
+    "AccountRequest": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "cost": {
+        "amount": {
           "type": "number"
         }
       },
       "required": [
-        "name",
-        "cost"
+        "amount"
       ]
     },
-    "CreatedResponse": {
+    "AccountResponse": {
       "type": "object",
       "properties": {
-        "orderId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "orderId"
-      ]
-    },
-    "OrderResponse": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "cost": {
+        "amount": {
           "type": "number"
-        },
-        "status": {
-          "type": "string"
         }
       },
       "required": [
-        "id",
-        "name",
-        "cost",
-        "status"
+        "amount"
       ]
     },
     "UnauthorizedResponse": {

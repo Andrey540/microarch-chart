@@ -1,0 +1,39 @@
+{
+  "UserRegistered": {
+    "UserID": "string",
+    "UserName": "string",
+    "Email":  "string"
+  },
+  "UserProfileUpdated": {
+    "UserID": "string",
+    "UserName": "string",
+    "Email":  "string"
+  },
+  "UserProfileRemoved": {
+    "UserID": "string"
+  },
+  "OrderCreated": {
+    "OrderID": "string",
+    "UserID": "string",
+    "Cost":  "number",
+    "Name": "string"
+  },
+  "OrderCompleted": {
+    "OrderID": "string",
+    "UserID": "string",
+    "Cost":  "number",
+    "Name": "string"
+  },
+  "OrderRejected": {
+    "OrderID": "string",
+    "UserID": "string",
+    "Cost":  "number",
+    "Name": "string"
+  },
+  "OrderPaid": {
+    "OrderID": "string"
+  },
+  "OrderPayRejected": {
+    "OrderID": "string"
+  }
+}

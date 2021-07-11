@@ -24,6 +24,39 @@
   ],
   "basePath": "/otusapp/user",
   "paths": {
+    "/auth": {
+      "post": {
+        "operationId": "Authenticate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthenticationRequest"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AuthenticationResponse"
+            }
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "An error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/register": {
       "post": {
         "operationId": "Register",
@@ -42,7 +75,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CreatedResponse"
+              "$ref": "#/definitions/RegisterResponse"
             }
           },
           "500": {
@@ -190,6 +223,21 @@
     }
   },
   "definitions": {
+    "AuthenticationRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    },
     "RegisterRequest": {
       "type": "object",
       "properties": {
@@ -252,7 +300,18 @@
         "password"
       ]
     },
-    "CreatedResponse": {
+    "AuthenticationResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userId"
+      ]
+    },
+    "RegisterResponse": {
       "type": "object",
       "properties": {
         "userId": {
@@ -301,45 +360,45 @@
     "SuccessResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "UnauthorizedResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "ForbiddenResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "ErrorResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     }
   }

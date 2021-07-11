@@ -211,56 +211,56 @@
     "UnauthorizedResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "ForbiddenResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "NotFoundResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "RequestDuplicatedResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     },
     "ErrorResponse": {
       "type": "object",
       "properties": {
-        "status": {
+        "message": {
           "type": "string"
         }
       },
       "required": [
-        "status"
+        "message"
       ]
     }
   }
