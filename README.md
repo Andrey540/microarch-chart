@@ -2,6 +2,8 @@
 
 Архитектура решения
 
+Описание api сарвисов и событий находится в папке api
+
 Логинация
 ![login-schema](./README.assets/login-schema.png)
 
@@ -14,8 +16,17 @@
 Пополнение счёта
 ![auth-schema](./README.assets/put-money-schema.png)
 
-Создание заказа
-![auth-schema](./README.assets/create-order-schema.png)
+Создание заказа. Успешный сценарий
+![auth-schema](./README.assets/create-order-success-schema.png)
+
+Создание заказа. Отклонение доставки.
+![auth-schema](./README.assets/create-order-delivery-rejected-schema.png)
+
+Создание заказа. Отклонение бронирования на складе.
+![auth-schema](./README.assets/create-order-warehouse-rejected-schema.png)
+
+Создание заказа. Отклонение оплаты.
+![auth-schema](./README.assets/create-order-billing-rejected-schema.png)
 
 После установки нужно запустить Kubernetes. При необходимости можно изменить используемый драйвер с помощью
 флага `--driver`.

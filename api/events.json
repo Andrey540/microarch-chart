@@ -42,7 +42,7 @@
     "OrderID": "string",
     "ProductID": "string"
   },
-  "OrderPayRejected": {
+  "OrderPaymentRejected": {
     "OrderID": "string"
   },
   "DeliveryScheduled": {
