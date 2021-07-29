@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-config
+data:
+  AMQP_ENABLED: {{ .Values.rabbitmq.enabled | quote }}
+  KAFKA_ENABLED: {{ .Values.kafka.enabled | quote }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: product-secret
+type: Opaque
+data:
+  DB_HOST: {{ include "postgresql.fullname" . | b64enc | quote }}
+  DB_PORT: {{ .Values.postgresql.service.port | b64enc | quote }}
+  DB_NAME: {{ .Values.postgresql.postgresqlDatabase | b64enc | quote }}
+  DB_USER: {{ .Values.postgresql.postgresqlUsername | b64enc | quote }}
+  DB_PASSWORD: {{ .Values.postgresql.postgresqlPassword | b64enc | quote }}
+  AMQP_HOST: {{ .Values.rabbitmq.host | b64enc | quote }}
+  AMQP_USER: {{ .Values.rabbitmq.username | b64enc | quote }}
+  AMQP_PASSWORD: {{ .Values.rabbitmq.password | b64enc | quote }}
+  KAFKA_HOST: {{ .Values.kafka.host | b64enc | quote }}
+  KAFKA_PORT: {{ .Values.kafka.port | b64enc | quote }}

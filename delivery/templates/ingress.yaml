@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-  {{- $fullName := include "order-chart.fullname" . -}}
+  {{- $fullName := include "delivery-chart.fullname" . -}}
   {{- $svcPort := .Values.service.port -}}
   {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
@@ -10,7 +10,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "order-chart.labels" . | nindent 4 }}
+    {{- include "delivery-chart.labels" . | nindent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/auth-url: "http://userauth-service.saga.svc.cluster.local:9000/auth"
     nginx.ingress.kubernetes.io/auth-signin: "http://$host/otusapp/auth/login"

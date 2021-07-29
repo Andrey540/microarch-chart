@@ -32,17 +32,17 @@ DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmi
 
 Очистить неймспейс, если был создан ранее
 ```bash
-kubectl delete namespace order
+kubectl delete namespace saga
 ```
 
 Создаём наймспейс
 ```bash
-kubectl create namespace order
+kubectl create namespace saga
 ```
 
 Ичпользуем наймспейс поумолчанию
 ```bash
-kubectl config set-context --current --namespace=order
+kubectl config set-context --current --namespace=saga
 ```
 
 Добавить необходимые рапозитории
@@ -113,4 +113,19 @@ helm install order ./microarch-chart/order
 Запустить чарт notification
 ```bash
 helm install notification ./microarch-chart/notification
+```
+
+Запустить чарт delivery
+```bash
+helm install delivery ./microarch-chart/delivery
+```
+
+Запустить чарт product
+```bash
+helm install product ./microarch-chart/product
+```
+
+Запустить чарт warehouse
+```bash
+helm install warehouse ./microarch-chart/warehouse
 ```

@@ -24,7 +24,7 @@ spec:
     spec:
       restartPolicy: Never
       initContainers:
-        - name: check-db-ready-order
+        - name: check-db-ready-delivery
           image: postgres:latest
           env:
             - name: POSTGRES_HOST
@@ -38,7 +38,7 @@ spec:
               until pg_isready -h $POSTGRES_HOST  -p  $POSTGRES_PORT;
               do echo waiting for database; sleep 2; done;
       containers:
-        - name: post-install-job-order
+        - name: post-install-job-delivery
           env:
             - name: DATABASE_URI
               value: {{ printf "postgresql://%s:%s@%s:%s/%s" .Values.postgresql.postgresqlUsername .Values.postgresql.postgresqlPassword (include "postgresql.fullname" .) .Values.postgresql.service.port .Values.postgresql.postgresqlDatabase  | quote }}
@@ -48,11 +48,9 @@ spec:
             - "-c"
             - |
               psql $DATABASE_URI <<'EOF'
-                CREATE TABLE my_order (id VARCHAR (255) PRIMARY KEY, user_id VARCHAR (255) NOT NULL, product_id VARCHAR (255) NOT NULL, cost INT NOT NULL, status INT NOT NULL, delivery_date TIMESTAMP NOT NULL);
-                CREATE INDEX user_idx ON my_order (user_id);
-                CREATE TABLE order_user (id VARCHAR (255) PRIMARY KEY);
+                CREATE TABLE delivery_schedule (order_id VARCHAR (255) PRIMARY KEY, start_date TIMESTAMP NOT NULL, end_date TIMESTAMP NOT NULL);
+                CREATE TABLE my_order (id VARCHAR (255) PRIMARY KEY, product_id VARCHAR (255) NOT NULL, delivery_date TIMESTAMP NOT NULL);
                 CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE product (id VARCHAR (255) PRIMARY KEY, name VARCHAR (255) NOT NULL, cost INT NOT NULL);
                 CREATE TABLE processed_command (id VARCHAR (255) PRIMARY KEY);
                 CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
                 CREATE INDEX status_idx ON stored_event (status);

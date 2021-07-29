@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: userauth-config
 data:
-  USER_APP_SERVICE_URL: "http://userapp-service.order.svc.cluster.local:9000/auth"
+  USER_APP_SERVICE_URL: "http://userapp-service.saga.svc.cluster.local:9000/auth"
 ---
 apiVersion: v1
 kind: Secret
