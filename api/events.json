@@ -2,38 +2,63 @@
   "UserRegistered": {
     "UserID": "string",
     "UserName": "string",
-    "Email":  "string"
+    "Email": "string"
   },
   "UserProfileUpdated": {
     "UserID": "string",
     "UserName": "string",
-    "Email":  "string"
+    "Email": "string"
   },
   "UserProfileRemoved": {
     "UserID": "string"
   },
+  "ProductCreated": {
+    "ProductID": "string",
+    "Cost": "number",
+    "Name": "string"
+  },
   "OrderCreated": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
-    "Name": "string"
+    "ProductID": "string",
+    "Cost": "number",
+    "DeliveryDate": "string"
   },
   "OrderCompleted": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
-    "Name": "string"
+    "ProductID": "string",
+    "Cost": "number",
+    "DeliveryDate": "string"
   },
   "OrderRejected": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
-    "Name": "string"
+    "ProductID": "string",
+    "Cost": "number",
+    "DeliveryDate": "string"
   },
   "OrderPaid": {
-    "OrderID": "string"
+    "OrderID": "string",
+    "ProductID": "string"
   },
   "OrderPayRejected": {
     "OrderID": "string"
+  },
+  "DeliveryScheduled": {
+    "OrderID": "string",
+    "ProductID": "string"
+  },
+  "DeliveryRejected": {
+    "OrderID": "string",
+    "ProductID": "string"
+  },
+  "ProductBooked": {
+    "OrderID": "string",
+    "ProductID": "string"
+  },
+  "ProductBookingRejected": {
+    "OrderID": "string",
+    "ProductID": "string"
   }
 }

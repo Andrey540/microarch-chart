@@ -515,7 +515,7 @@
 			"response": []
 		},
 		{
-			"name": "Check firts order status completed",
+			"name": "Check first order status completed",
 			"event": [
 				{
 					"listen": "prerequest",
