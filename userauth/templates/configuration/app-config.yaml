@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: userauth-config
 data:
-  USER_APP_SERVICE_URL: "http://userapp-service.saga.svc.cluster.local:9000/auth"
+  REDIS_HOST: {{ .Values.redis.host | quote }}
+  USER_APP_SERVICE_URL: {{ .Values.services.user | quote }}
 ---
 apiVersion: v1
 kind: Secret
@@ -11,5 +12,6 @@ metadata:
   name: userauth-secret
 type: Opaque
 data:
+  REDIS_PASSWORD: {{ .Values.redis.password | b64enc | quote }}
   JWT_PUBLIC_KEY: {{ .Values.jwt.publicKey | b64enc | quote }}
   JWT_PRIVATE_KEY: {{ .Values.jwt.privateKey | b64enc | quote }}

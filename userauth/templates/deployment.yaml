@@ -40,6 +40,16 @@ spec:
                 configMapKeyRef:
                   name: userauth-config
                   key: USER_APP_SERVICE_URL
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: userauth-config
+                  key: REDIS_HOST
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: userauth-secret
+                  key: REDIS_PASSWORD
             - name: JWT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:

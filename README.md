@@ -43,17 +43,17 @@ DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmi
 
 Очистить неймспейс, если был создан ранее
 ```bash
-kubectl delete namespace saga
+kubectl delete namespace shop
 ```
 
 Создаём наймспейс
 ```bash
-kubectl create namespace saga
+kubectl create namespace shop
 ```
 
 Ичпользуем наймспейс поумолчанию
 ```bash
-kubectl config set-context --current --namespace=saga
+kubectl config set-context --current --namespace=shop
 ```
 
 Добавить необходимые рапозитории
@@ -101,7 +101,7 @@ helm install rabbitmq -f microarch-chart/rabbit.yaml bitnami/rabbitmq
 helm install kafka -f microarch-chart/kafka.yaml bitnami/kafka
 ```
 
-Запустить чарт userauth
+Запустить чарт userauth. Долго запускается из-за кластера redis, нужно подождать.
 ```bash
 helm install userauth ./microarch-chart/userauth
 ```
