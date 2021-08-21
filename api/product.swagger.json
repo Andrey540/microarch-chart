@@ -24,7 +24,7 @@
   ],
   "basePath": "/otusapp/product",
   "paths": {
-    "/create": {
+    "/v1/create": {
       "post": {
         "operationId": "Create",
         "parameters": [
@@ -67,6 +67,53 @@
           }
         }
       }
+    },
+    "/v1/update": {
+      "post": {
+        "operationId": "Update",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response."
+          },
+          "401": {
+            "description": "User is unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedResponse"
+            }
+          },
+          "403": {
+            "description": "Access forbidden",
+            "schema": {
+              "$ref": "#/definitions/ForbiddenResponse"
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "409": {
+            "description": "Request duplicated",
+            "schema": {
+              "$ref": "#/definitions/RequestDuplicatedResponse"
+            }
+          },
+          "500": {
+            "description": "An error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -81,6 +128,25 @@
         }
       },
       "required": [
+        "name",
+        "cost"
+      ]
+    },
+    "UpdateRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
         "name",
         "cost"
       ]

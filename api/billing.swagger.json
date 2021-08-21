@@ -24,7 +24,7 @@
   ],
   "basePath": "/otusapp/billing",
   "paths": {
-    "/account/put/{userId}": {
+    "/v1/account/put/{userId}": {
       "put": {
         "operationId": "Put money",
         "parameters": [
@@ -83,7 +83,7 @@
         }
       }
     },
-    "/account/{userId}": {
+    "/v1/account/{userId}": {
       "get": {
         "operationId": "Show money",
         "parameters": [
@@ -125,7 +125,7 @@
         }
       }
     },
-    "/account/withdraw/{userId}": {
+    "/v1/account/withdraw/{userId}": {
       "put": {
         "operationId": "Withdraw money",
         "parameters": [

@@ -24,7 +24,7 @@
   ],
   "basePath": "/otusapp/delivery",
   "paths": {
-    "/{id}": {
+    "/v1/{id}": {
       "get": {
         "operationId": "Get order delivery",
         "parameters": [

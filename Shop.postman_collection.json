@@ -1,12 +1,69 @@
 {
 	"info": {
 		"_postman_id": "9fb85227-4d1c-47f3-b919-e4e0ee76b4b0",
-		"name": "Order shop",
+		"name": "Order saga",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Create user",
+			"name": "Create admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"adminPassword\", pm.variables.replaceIn('{{$randomPassword}}'))",
+							"pm.collectionVariables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'))",
+							"pm.collectionVariables.set(\"phone\", pm.variables.replaceIn('{{$randomPhone}}'))",
+							"pm.collectionVariables.set(\"adminName\", pm.variables.replaceIn('{{$randomUserName}}'))",
+							"pm.collectionVariables.set(\"firstName\", pm.variables.replaceIn('{{$randomFirstName}}'))",
+							"pm.collectionVariables.set(\"lastName\", pm.variables.replaceIn('{{$randomLastName}}'))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{adminName}}\",\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{phone}}\",\n    \"password\": \"{{adminPassword}}\",\n    \"role\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user/v1/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"v1",
+						"register"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Create customer",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -47,13 +104,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/user/register",
+					"raw": "http://{{baseUrl}}/user/v1/register",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"user",
+						"v1",
 						"register"
 					]
 				},
@@ -62,7 +120,7 @@
 			"response": []
 		},
 		{
-			"name": "Auth user",
+			"name": "Login customer",
 			"event": [
 				{
 					"listen": "test",
@@ -89,13 +147,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/auth/login",
+					"raw": "http://{{baseUrl}}/auth/v1/login",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"auth",
+						"v1",
 						"login"
 					]
 				},
@@ -104,7 +163,267 @@
 			"response": []
 		},
 		{
-			"name": "Create product",
+			"name": "Get user profile success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/v1/profile/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"v1",
+						"profile",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"logout"
+					]
+				},
+				"description": "Auth user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get unauthorized user profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/v1/profile/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"v1",
+						"profile",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login customer again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
+			},
+			"response": []
+		},
+		{
+			"name": "Check customer can not create product",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"requestId\", pm.variables.replaceIn('{{$randomUUID}}'))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{IDtoken}}"
+					},
+					{
+						"key": "X-Request-Id",
+						"value": "{{requestId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"First product\",\n    \"cost\": 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/v1/create",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"v1",
+						"create"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{adminName}}\",\n    \"password\": \"{{adminPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
+			},
+			"response": []
+		},
+		{
+			"name": "Check admin can create product",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -137,8 +456,8 @@
 					},
 					{
 						"key": "X-Request-Id",
-						"value": "{{requestId}}",
-						"type": "text"
+						"type": "text",
+						"value": "{{requestId}}"
 					}
 				],
 				"body": {
@@ -151,13 +470,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/product/create",
+					"raw": "http://{{baseUrl}}/product/v1/create",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"product",
+						"v1",
 						"create"
 					]
 				},
@@ -214,17 +534,61 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/update",
+					"raw": "http://{{baseUrl}}/warehouse/v1/update",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"update"
 					]
 				},
 				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login customer again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
 			},
 			"response": []
 		},
@@ -276,13 +640,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/billing/account/put/{{userId}}",
+					"raw": "http://{{baseUrl}}/billing/v1/account/put/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"billing",
+						"v1",
 						"account",
 						"put",
 						"{{userId}}"
@@ -341,13 +706,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/order/create",
+					"raw": "http://{{baseUrl}}/order/v1/create",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"create"
 					]
 				}
@@ -361,7 +727,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 10000);"
+							"setTimeout(function(){}, 15000);"
 						],
 						"type": "text/javascript"
 					}
@@ -402,13 +768,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/{{productId}}",
+					"raw": "http://{{baseUrl}}/warehouse/v1/{{productId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"{{productId}}"
 					]
 				},
@@ -452,13 +819,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/billing/account/{{userId}}",
+					"raw": "http://{{baseUrl}}/billing/v1/account/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"billing",
+						"v1",
 						"account",
 						"{{userId}}"
 					]
@@ -501,13 +869,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/delivery/{{orderId}}",
+					"raw": "http://{{baseUrl}}/delivery/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"delivery",
+						"v1",
 						"{{orderId}}"
 					]
 				}
@@ -515,7 +884,7 @@
 			"response": []
 		},
 		{
-			"name": "Check first order status completed",
+			"name": "Check firts order status completed",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -550,13 +919,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/order/{{orderId}}",
+					"raw": "http://{{baseUrl}}/order/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"{{orderId}}"
 					]
 				}
@@ -611,13 +981,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/order/create",
+					"raw": "http://{{baseUrl}}/order/v1/create",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"create"
 					]
 				}
@@ -631,7 +1002,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 10000);"
+							"setTimeout(function(){}, 15000);"
 						],
 						"type": "text/javascript"
 					}
@@ -672,13 +1043,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/{{productId}}",
+					"raw": "http://{{baseUrl}}/warehouse/v1/{{productId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"{{productId}}"
 					]
 				},
@@ -722,13 +1094,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/billing/account/{{userId}}",
+					"raw": "http://{{baseUrl}}/billing/v1/account/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"billing",
+						"v1",
 						"account",
 						"{{userId}}"
 					]
@@ -770,13 +1143,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/delivery/{{orderId}}",
+					"raw": "http://{{baseUrl}}/delivery/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"delivery",
+						"v1",
 						"{{orderId}}"
 					]
 				}
@@ -819,16 +1193,60 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/order/{{orderId}}",
+					"raw": "http://{{baseUrl}}/order/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"{{orderId}}"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{adminName}}\",\n    \"password\": \"{{adminPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
 			},
 			"response": []
 		},
@@ -872,7 +1290,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"quantity\": 0\n}",
+					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"quantity\": 0,\n    \"currentQuantity\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -880,17 +1298,61 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/update",
+					"raw": "http://{{baseUrl}}/warehouse/v1/update",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"update"
 					]
 				},
 				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login customer again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
 			},
 			"response": []
 		},
@@ -944,13 +1406,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/order/create",
+					"raw": "http://{{baseUrl}}/order/v1/create",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"create"
 					]
 				}
@@ -964,7 +1427,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 10000);"
+							"setTimeout(function(){}, 15000);"
 						],
 						"type": "text/javascript"
 					}
@@ -1005,13 +1468,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/{{productId}}",
+					"raw": "http://{{baseUrl}}/warehouse/v1/{{productId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"{{productId}}"
 					]
 				},
@@ -1055,13 +1519,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/billing/account/{{userId}}",
+					"raw": "http://{{baseUrl}}/billing/v1/account/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"billing",
+						"v1",
 						"account",
 						"{{userId}}"
 					]
@@ -1103,13 +1568,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/delivery/{{orderId}}",
+					"raw": "http://{{baseUrl}}/delivery/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"delivery",
+						"v1",
 						"{{orderId}}"
 					]
 				}
@@ -1152,16 +1618,60 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/order/{{orderId}}",
+					"raw": "http://{{baseUrl}}/order/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"{{orderId}}"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{adminName}}\",\n    \"password\": \"{{adminPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
 			},
 			"response": []
 		},
@@ -1205,7 +1715,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"quantity\": 2\n}",
+					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"quantity\": 2,\n    \"currentQuantity\": 0\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1213,17 +1723,61 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/update",
+					"raw": "http://{{baseUrl}}/warehouse/v1/update",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"update"
 					]
 				},
 				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login customer again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				},
+				"description": "Auth user"
 			},
 			"response": []
 		},
@@ -1275,13 +1829,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/billing/account/withdraw/{{userId}}",
+					"raw": "http://{{baseUrl}}/billing/v1/account/withdraw/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"billing",
+						"v1",
 						"account",
 						"withdraw",
 						"{{userId}}"
@@ -1340,13 +1895,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/order/create",
+					"raw": "http://{{baseUrl}}/order/v1/create",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"create"
 					]
 				}
@@ -1360,7 +1916,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 10000);"
+							"setTimeout(function(){}, 15000);"
 						],
 						"type": "text/javascript"
 					}
@@ -1401,13 +1957,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/warehouse/{{productId}}",
+					"raw": "http://{{baseUrl}}/warehouse/v1/{{productId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"warehouse",
+						"v1",
 						"{{productId}}"
 					]
 				},
@@ -1451,13 +2008,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/billing/account/{{userId}}",
+					"raw": "http://{{baseUrl}}/billing/v1/account/{{userId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"billing",
+						"v1",
 						"account",
 						"{{userId}}"
 					]
@@ -1499,13 +2057,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/delivery/{{orderId}}",
+					"raw": "http://{{baseUrl}}/delivery/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"delivery",
+						"v1",
 						"{{orderId}}"
 					]
 				}
@@ -1548,13 +2107,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseUrl}}/order/{{orderId}}",
+					"raw": "http://{{baseUrl}}/order/v1/{{orderId}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"order",
+						"v1",
 						"{{orderId}}"
 					]
 				}
@@ -1648,6 +2208,14 @@
 		},
 		{
 			"key": "deliveryDate",
+			"value": ""
+		},
+		{
+			"key": "adminName",
+			"value": ""
+		},
+		{
+			"key": "adminPassword",
 			"value": ""
 		}
 	]

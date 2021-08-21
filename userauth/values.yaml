@@ -111,7 +111,7 @@ metrics:
     enabled: true
 
 services:
-  user: "http://userapp-service.shop.svc.cluster.local:9000/auth"
+  user: "http://userapp-service.shop.svc.cluster.local:9000/v1/auth"
 
 redis:
   enabled: true

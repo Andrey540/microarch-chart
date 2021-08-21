@@ -17,6 +17,11 @@
     "Cost": "number",
     "Name": "string"
   },
+  "ProductUpdated": {
+    "ProductID": "string",
+    "Cost": "number",
+    "Name": "string"
+  },
   "OrderCreated": {
     "OrderID": "string",
     "UserID": "string",

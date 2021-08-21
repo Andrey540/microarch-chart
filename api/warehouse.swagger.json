@@ -24,7 +24,7 @@
   ],
   "basePath": "/otusapp/warehouse",
   "paths": {
-    "/update": {
+    "/v1/update": {
       "post": {
         "operationId": "Update",
         "parameters": [
@@ -68,7 +68,7 @@
         }
       }
     },
-    "/{id}": {
+    "/v1/{id}": {
       "get": {
         "operationId": "Get product quantity",
         "parameters": [

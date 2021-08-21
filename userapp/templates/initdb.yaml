@@ -48,7 +48,7 @@ spec:
             - "-c"
             - |
               psql $DATABASE_URI <<'EOF'
-                CREATE TABLE app_user (id VARCHAR (255) PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, first_name VARCHAR (255) NOT NULL, last_name VARCHAR (255) NOT NULL, email VARCHAR (255) NOT NULL, phone VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL);
+                CREATE TABLE app_user (id VARCHAR (255) PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, first_name VARCHAR (255) NOT NULL, last_name VARCHAR (255) NOT NULL, email VARCHAR (255) NOT NULL, phone VARCHAR (255) NOT NULL, password VARCHAR (255) NOT NULL, role INT NOT NULL DEFAULT 0);
                 CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
                 CREATE TABLE processed_command (id VARCHAR (255) PRIMARY KEY);
                 CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);

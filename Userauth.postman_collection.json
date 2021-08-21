@@ -127,7 +127,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/auth/login",
+					"raw": "http://{{baseUrl}}/auth/v1/login",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
@@ -382,7 +382,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}/auth/login",
+					"raw": "http://{{baseUrl}}/auth/v1/login",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"

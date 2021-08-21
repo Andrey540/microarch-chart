@@ -24,7 +24,7 @@
   ],
   "basePath": "/otusapp/notification",
   "paths": {
-    "/list/{userId}": {
+    "/v1/list/{userId}": {
       "get": {
         "operationId": "List user orders",
         "parameters": [

@@ -12,9 +12,9 @@
   ],
   "basePath": "/otusapp",
   "paths": {
-    "/auth": {
+    "/v1/login": {
       "post": {
-        "operationId": "Authenticate",
+        "operationId": "Login",
         "parameters": [
           {
             "name": "body",
@@ -25,6 +25,47 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AuthenticationResponse"
+            }
+          },
+          "401": {
+            "description": "User is unauthorized",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedResponse"
+            }
+          },
+          "500": {
+            "description": "An error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/logout": {
+      "post": {
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response."
+          },
+          "500": {
+            "description": "An error response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth": {
+      "post": {
+        "operationId": "Authenticate",
         "responses": {
           "200": {
             "description": "A successful response.",

@@ -8,7 +8,7 @@ image:
   repository: andrey540/userapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v12"
+  tag: "v13"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -49,7 +49,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: arch.homework
-      paths: ["/otusapp/user/(profile|update|delete)(/|$)"]
+      paths: ["/otusapp/user/(v1/profile|v1/update|v1/delete)(/|$)"]
   openhosts:
     - host: arch.homework
       paths: ["/otusapp/user"]

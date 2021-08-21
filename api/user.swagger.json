@@ -24,7 +24,7 @@
   ],
   "basePath": "/otusapp/user",
   "paths": {
-    "/auth": {
+    "/v1/auth": {
       "post": {
         "operationId": "Authenticate",
         "parameters": [
@@ -57,7 +57,7 @@
         }
       }
     },
-    "/register": {
+    "/v1/register": {
       "post": {
         "operationId": "Register",
         "parameters": [
@@ -87,7 +87,7 @@
         }
       }
     },
-    "/profile/{id}": {
+    "/v1/profile/{id}": {
       "get": {
         "operationId": "Profile",
         "parameters": [
@@ -129,7 +129,7 @@
         }
       }
     },
-    "/update/{id}": {
+    "/v1/update/{id}": {
       "put": {
         "operationId": "Update",
         "parameters": [
@@ -179,7 +179,7 @@
         }
       }
     },
-    "/delete/{id}": {
+    "/v1/delete/{id}": {
       "delete": {
         "operationId": "Delete",
         "parameters": [
@@ -258,6 +258,9 @@
         },
         "password": {
           "type": "string"
+        },
+        "role": {
+          "type": "string"
         }
       },
       "required": [
@@ -289,6 +292,9 @@
         },
         "password": {
           "type": "string"
+        },
+        "role": {
+          "type": "string"
         }
       },
       "required": [
@@ -305,10 +311,14 @@
       "properties": {
         "userId": {
           "type": "string"
+        },
+        "role": {
+          "type": "string"
         }
       },
       "required": [
-        "userId"
+        "userId",
+        "role"
       ]
     },
     "RegisterResponse": {
@@ -345,6 +355,9 @@
         },
         "password": {
           "type": "string"
+        },
+        "role": {
+          "type": "string"
         }
       },
       "required": [
@@ -354,7 +367,8 @@
         "lastName",
         "email",
         "phone",
-        "password"
+        "password",
+        "role"
       ]
     },
     "SuccessResponse": {
