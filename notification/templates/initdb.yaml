@@ -48,13 +48,13 @@ spec:
             - "-c"
             - |
               psql $DATABASE_URI <<'EOF'
-                CREATE TABLE notification (id VARCHAR (255) PRIMARY KEY, user_id VARCHAR (255) NOT NULL, message TEXT NOT NULL, created_at TIMESTAMP NOT NULL);
+                CREATE TABLE notification (id uuid PRIMARY KEY, user_id uuid NOT NULL, message TEXT NOT NULL, created_at TIMESTAMP NOT NULL);
                 CREATE INDEX user_idx ON notification (user_id);
-                CREATE TABLE notification_user (id VARCHAR (255) PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL);
-                CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE processed_command (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE product (id VARCHAR (255) PRIMARY KEY, name VARCHAR (255) NOT NULL, cost INT NOT NULL);
-                CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
+                CREATE TABLE notification_user (id uuid PRIMARY KEY, username VARCHAR (255) UNIQUE NOT NULL, email VARCHAR (255) NOT NULL);
+                CREATE TABLE processed_event (id uuid PRIMARY KEY);
+                CREATE TABLE processed_command (id uuid PRIMARY KEY);
+                CREATE TABLE product (id uuid PRIMARY KEY, name VARCHAR (255) NOT NULL, price DECIMAL NOT NULL);
+                CREATE TABLE stored_event (id uuid PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
                 CREATE INDEX status_idx ON stored_event (status);
               EOF
 

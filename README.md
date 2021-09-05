@@ -144,7 +144,7 @@ helm install warehouse ./microarch-chart/warehouse
 Можно одной командой
 ```bash
 minikube start \
---cpus=4 --memory=8g \
+--cpus=4 --memory=10g \
 --cni=flannel \
 --kubernetes-version="v1.19.0" \
 --extra-config=apiserver.enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,\
@@ -156,7 +156,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami && \
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx && \
 helm repo update && \
 helm install prom prometheus-community/kube-prometheus-stack -f microarch-chart/prometheus.yaml --atomic && \
-helm install nginx ingress-nginx/ingress-nginx -f microarch-chart/nginx-ingress.yaml --atomic && \
+helm install nginx ingress-nginx/ingress-nginx -f microarch-chart/nginx-ingress.yaml --atomic --version 3.36.0 && \
 helm install rabbitmq -f microarch-chart/rabbit.yaml bitnami/rabbitmq && \
 helm install kafka -f microarch-chart/kafka.yaml bitnami/kafka && \
 sleep 60 && \

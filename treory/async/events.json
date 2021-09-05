@@ -7,19 +7,19 @@
   "OrderCreated": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
+    "Price":  "number",
     "Name": "string"
   },
   "OrderCompleted": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
+    "Price":  "number",
     "Name": "string"
   },
   "OrderRejected": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
+    "Price":  "number",
     "Name": "string"
   },
   "OrderPaid": {

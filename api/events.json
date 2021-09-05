@@ -14,33 +14,33 @@
   },
   "ProductCreated": {
     "ProductID": "string",
-    "Cost": "number",
+    "Price": "number",
     "Name": "string"
   },
   "ProductUpdated": {
     "ProductID": "string",
-    "Cost": "number",
+    "Price": "number",
     "Name": "string"
   },
   "OrderCreated": {
     "OrderID": "string",
     "UserID": "string",
     "ProductID": "string",
-    "Cost": "number",
+    "Price": "number",
     "DeliveryDate": "string"
   },
   "OrderCompleted": {
     "OrderID": "string",
     "UserID": "string",
     "ProductID": "string",
-    "Cost": "number",
+    "Price": "number",
     "DeliveryDate": "string"
   },
   "OrderRejected": {
     "OrderID": "string",
     "UserID": "string",
     "ProductID": "string",
-    "Cost": "number",
+    "Price": "number",
     "DeliveryDate": "string"
   },
   "OrderPaid": {

@@ -169,13 +169,13 @@
         "name": {
           "type": "string"
         },
-        "cost": {
+        "price": {
           "type": "number"
         }
       },
       "required": [
         "name",
-        "cost"
+        "price"
       ]
     },
     "CreatedResponse": {
@@ -198,7 +198,7 @@
         "name": {
           "type": "string"
         },
-        "cost": {
+        "price": {
           "type": "number"
         },
         "status": {
@@ -208,7 +208,7 @@
       "required": [
         "id",
         "name",
-        "cost",
+        "price",
         "status"
       ]
     },

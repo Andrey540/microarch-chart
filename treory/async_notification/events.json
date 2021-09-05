@@ -2,7 +2,7 @@
   "OrderCreated": {
     "OrderID": "string",
     "UserID": "string",
-    "Cost":  "number",
+    "Price":  "number",
     "Name": "string"
   }
 }

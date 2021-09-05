@@ -163,6 +163,68 @@
 			"response": []
 		},
 		{
+			"name": "Check registered notification",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(function(){}, 3000);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test quantity data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{IDtoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/notification/v1/list/{{userId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"notification",
+						"v1",
+						"list",
+						"{{userId}}"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
 			"name": "Get user profile success",
 			"event": [
 				{
@@ -317,6 +379,194 @@
 			"response": []
 		},
 		{
+			"name": "Check customer can list categories",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    for (var key in jsonData) {",
+							"        if (jsonData[key][\"name\"] == \"Bicycles\") {",
+							"            pm.collectionVariables.set(\"categoryId\", jsonData[key][\"id\"])",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/v1/category/list",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"v1",
+						"category",
+						"list"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Check customer can list attributes",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    var attributeTypes = [];",
+							"    var jsonData = pm.response.json();",
+							"    for (var key in jsonData) {",
+							"        var attribute = jsonData[key];",
+							"        if (!attributeTypes.hasOwnProperty(attribute[\"type\"])) {",
+							"            attributeTypes[attribute[\"type\"]] = [];",
+							"        }",
+							"        attributeTypes[attribute[\"type\"]].push(attribute[\"id\"]);",
+							"    }",
+							"    for (var key in attributeTypes) {",
+							"        if (key == \"Color\") {",
+							"            var index = ((Math.random() * 100) % attributeTypes[key].length) | 0;",
+							"            pm.collectionVariables.set(\"randomColorAttribute\", attributeTypes[key][index]);",
+							"        }",
+							"        if (key == \"Material\") {",
+							"            var index = ((Math.random() * 100) % attributeTypes[key].length) | 0;",
+							"            pm.collectionVariables.set(\"randomMaterialAttribute\", attributeTypes[key][index]);",
+							"        }",
+							"        if (key == \"Country\") {",
+							"            var index = ((Math.random() * 100) % attributeTypes[key].length) | 0;",
+							"            pm.collectionVariables.set(\"randomCountryAttribute\", attributeTypes[key][index]);",
+							"        }",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/v1/attribute/list",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"v1",
+						"attribute",
+						"list"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
+			"name": "Check customer can list products",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"B\",\n    \"category\": \"e7848b57-0a86-11ec-976d-0242ac160000\",\n    \"price\": {\n        \"Min\": 100,\n        \"Max\": 200\n    },\n    \"attributes\": [\n        \"e7848b57-0a86-11ec-976d-0242ac161001\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/v1/product/list",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"v1",
+						"product",
+						"list"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
 			"name": "Check customer can not create product",
 			"event": [
 				{
@@ -343,11 +593,6 @@
 			"request": {
 				"method": "POST",
 				"header": [
-					{
-						"key": "Authorization",
-						"type": "text",
-						"value": "Bearer {{IDtoken}}"
-					},
 					{
 						"key": "X-Request-Id",
 						"value": "{{requestId}}",
@@ -423,6 +668,65 @@
 			"response": []
 		},
 		{
+			"name": "List products",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test token data\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-UserId",
+						"type": "text",
+						"value": "{{userId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"B\",\n    \"category\": \"e7848b57-0a86-11ec-976d-0242ac160000\",\n    \"price\": {\n        \"Min\": 100,\n        \"Max\": 200\n    },\n    \"attributes\": [\n        \"e7848b57-0a86-11ec-976d-0242ac161001\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/product/v1/product/list",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"product",
+						"v1",
+						"product",
+						"list"
+					]
+				},
+				"description": "Create user"
+			},
+			"response": []
+		},
+		{
 			"name": "Check admin can create product",
 			"event": [
 				{
@@ -462,7 +766,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"First product\",\n    \"cost\": 100\n}",
+					"raw": "{\n    \"name\": \"First product\",\n    \"price\": 100,\n    \"category\": \"{{categoryId}}\",\n    \"attributes\": [\n        \"{{randomColorAttribute}}\",\n        \"{{randomMaterialAttribute}}\",\n        \"{{randomCountryAttribute}}\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -675,8 +979,10 @@
 					"script": {
 						"exec": [
 							"pm.collectionVariables.set(\"requestId\", pm.variables.replaceIn('{{$randomUUID}}'))",
-							"var date = new Date(2022, Math.random() * 100 % 12, (Math.random() * 100 + 1) % 28, Math.random() * 100 % 24, Math.random() * 100 % 60)",
-							"pm.collectionVariables.set(\"deliveryDate\", date.toJSON())"
+							"var date1 = new Date(2022, Math.random() * 100 % 12, (Math.random() * 100 + 1) % 28, Math.random() * 100 % 24, Math.random() * 100 % 60);",
+							"var date2 = new Date(date1.getTime() + 30 * 60000);",
+							"pm.collectionVariables.set(\"deliveryStartDate\", date1.toJSON())",
+							"pm.collectionVariables.set(\"deliveryEndDate\", date2.toJSON())"
 						],
 						"type": "text/javascript"
 					}
@@ -698,7 +1004,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"deliveryDate\": \"{{deliveryDate}}\"\n}",
+					"raw": "{\n    \"productIds\": [\"{{productId}}\"],\n    \"deliveryStartDate\": \"{{deliveryStartDate}}\",\n    \"deliveryEndDate\": \"{{deliveryEndDate}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -727,7 +1033,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 15000);"
+							"setTimeout(function(){}, 10000);"
 						],
 						"type": "text/javascript"
 					}
@@ -784,7 +1090,7 @@
 			"response": []
 		},
 		{
-			"name": "Check account first order Copy",
+			"name": "Check account first order",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -802,7 +1108,7 @@
 							"pm.test(\"test account data\", function () {",
 							"    pm.response.to.have.status(200);",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.amount).to.eql(100);",
+							"    pm.expect(jsonData.amount).to.eql('100');",
 							"});"
 						],
 						"type": "text/javascript"
@@ -973,7 +1279,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"deliveryDate\": \"{{deliveryDate}}\"\n}",
+					"raw": "{\n    \"productIds\": [\"{{productId}}\"],\n    \"deliveryStartDate\": \"{{deliveryStartDate}}\",\n    \"deliveryEndDate\": \"{{deliveryEndDate}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1002,7 +1308,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 15000);"
+							"setTimeout(function(){}, 10000);"
 						],
 						"type": "text/javascript"
 					}
@@ -1077,7 +1383,7 @@
 							"pm.test(\"test account data\", function () {",
 							"    pm.response.to.have.status(200);",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.amount).to.eql(100);",
+							"    pm.expect(jsonData.amount).to.eql('100');",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1375,8 +1681,10 @@
 					"script": {
 						"exec": [
 							"pm.collectionVariables.set(\"requestId\", pm.variables.replaceIn('{{$randomUUID}}'))",
-							"var date = new Date(2022, Math.random() * 100 % 12, (Math.random() * 100 + 1) % 28, Math.random() * 100 % 24, Math.random() * 100 % 60)",
-							"pm.collectionVariables.set(\"deliveryDate\", date.toJSON())"
+							"var date1 = new Date(2022, Math.random() * 100 % 12, (Math.random() * 100 + 1) % 28, Math.random() * 100 % 24, Math.random() * 100 % 60);",
+							"var date2 = new Date(date1.getTime() + 30 * 60000);",
+							"pm.collectionVariables.set(\"deliveryStartDate\", date1.toJSON())",
+							"pm.collectionVariables.set(\"deliveryEndDate\", date2.toJSON())"
 						],
 						"type": "text/javascript"
 					}
@@ -1398,7 +1706,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"deliveryDate\": \"{{deliveryDate}}\"\n}",
+					"raw": "{\n    \"productIds\": [\"{{productId}}\"],\n    \"deliveryStartDate\": \"{{deliveryStartDate}}\",\n    \"deliveryEndDate\": \"{{deliveryEndDate}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1427,7 +1735,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 15000);"
+							"setTimeout(function(){}, 10000);"
 						],
 						"type": "text/javascript"
 					}
@@ -1502,7 +1810,7 @@
 							"pm.test(\"test account data\", function () {",
 							"    pm.response.to.have.status(200);",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.amount).to.eql(100);",
+							"    pm.expect(jsonData.amount).to.eql('100');",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1864,8 +2172,10 @@
 					"script": {
 						"exec": [
 							"pm.collectionVariables.set(\"requestId\", pm.variables.replaceIn('{{$randomUUID}}'))",
-							"var date = new Date(2022, Math.random() * 100 % 12, (Math.random() * 100 + 1) % 28, Math.random() * 100 % 24, Math.random() * 100 % 60)",
-							"pm.collectionVariables.set(\"deliveryDate\", date.toJSON())"
+							"var date1 = new Date(2022, Math.random() * 100 % 12, (Math.random() * 100 + 1) % 28, Math.random() * 100 % 24, Math.random() * 100 % 60);",
+							"var date2 = new Date(date1.getTime() + 30 * 60000);",
+							"pm.collectionVariables.set(\"deliveryStartDate\", date1.toJSON())",
+							"pm.collectionVariables.set(\"deliveryEndDate\", date2.toJSON())"
 						],
 						"type": "text/javascript"
 					}
@@ -1887,7 +2197,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"deliveryDate\": \"{{deliveryDate}}\"\n}",
+					"raw": "{\n    \"productIds\": [\"{{productId}}\"],\n    \"deliveryStartDate\": \"{{deliveryStartDate}}\",\n    \"deliveryEndDate\": \"{{deliveryEndDate}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1916,7 +2226,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"setTimeout(function(){}, 15000);"
+							"setTimeout(function(){}, 10000);"
 						],
 						"type": "text/javascript"
 					}
@@ -1991,7 +2301,7 @@
 							"pm.test(\"test account data\", function () {",
 							"    pm.response.to.have.status(200);",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.amount).to.eql(0);",
+							"    pm.expect(jsonData.amount).to.eql('0');",
 							"});"
 						],
 						"type": "text/javascript"
@@ -2207,7 +2517,7 @@
 			"value": ""
 		},
 		{
-			"key": "deliveryDate",
+			"key": "deliveryStartDate",
 			"value": ""
 		},
 		{
@@ -2216,6 +2526,26 @@
 		},
 		{
 			"key": "adminPassword",
+			"value": ""
+		},
+		{
+			"key": "categoryId",
+			"value": ""
+		},
+		{
+			"key": "randomColorAttribute",
+			"value": ""
+		},
+		{
+			"key": "randomMaterialAttribute",
+			"value": ""
+		},
+		{
+			"key": "randomCountryAttribute",
+			"value": ""
+		},
+		{
+			"key": "deliveryEndDate",
 			"value": ""
 		}
 	]

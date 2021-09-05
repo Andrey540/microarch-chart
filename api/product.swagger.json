@@ -123,13 +123,13 @@
         "name": {
           "type": "string"
         },
-        "cost": {
+        "price": {
           "type": "number"
         }
       },
       "required": [
         "name",
-        "cost"
+        "price"
       ]
     },
     "UpdateRequest": {
@@ -141,14 +141,14 @@
         "name": {
           "type": "string"
         },
-        "cost": {
+        "price": {
           "type": "number"
         }
       },
       "required": [
         "id",
         "name",
-        "cost"
+        "price"
       ]
     },
     "UnauthorizedResponse": {

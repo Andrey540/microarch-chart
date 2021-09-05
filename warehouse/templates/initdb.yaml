@@ -48,11 +48,11 @@ spec:
             - "-c"
             - |
               psql $DATABASE_URI <<'EOF'
-                CREATE TABLE product (id VARCHAR (255) PRIMARY KEY, name VARCHAR (255) NOT NULL);
-                CREATE TABLE product_quantity (product_id VARCHAR (255) PRIMARY KEY, quantity INT NOT NULL DEFAULT 0);
-                CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE processed_command (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
+                CREATE TABLE product (id uuid PRIMARY KEY, name VARCHAR (255) NOT NULL);
+                CREATE TABLE product_quantity (product_id uuid PRIMARY KEY, quantity INT NOT NULL DEFAULT 0);
+                CREATE TABLE processed_event (id uuid PRIMARY KEY);
+                CREATE TABLE processed_command (id uuid PRIMARY KEY);
+                CREATE TABLE stored_event (id uuid PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
                 CREATE INDEX status_idx ON stored_event (status);
               EOF
 

@@ -59,4 +59,4 @@ spec:
           servicePort: {{ $svcPort }}
       {{- end }}
   {{- end }}
-  {{- end }}
+{{- end }}

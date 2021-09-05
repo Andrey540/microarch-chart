@@ -48,10 +48,34 @@ spec:
             - "-c"
             - |
               psql $DATABASE_URI <<'EOF'
-                CREATE TABLE product (id VARCHAR (255) PRIMARY KEY, name VARCHAR (255) NOT NULL, cost INT NOT NULL);
-                CREATE TABLE processed_event (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE processed_command (id VARCHAR (255) PRIMARY KEY);
-                CREATE TABLE stored_event (id VARCHAR (255) PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
+                CREATE TABLE product (id uuid PRIMARY KEY, name VARCHAR (255) NOT NULL, category_id uuid NOT NULL, price DECIMAL NOT NULL);
+                CREATE TABLE processed_event (id uuid PRIMARY KEY);
+                CREATE TABLE category (id uuid PRIMARY KEY, name VARCHAR (255) NOT NULL);
+                CREATE INDEX category_name_idx ON category (name);
+                INSERT INTO category (id, name) VALUES('e7848b57-0a86-11ec-976d-0242ac160000', 'Bicycles');
+                INSERT INTO category (id, name) VALUES('e7848b57-0a86-11ec-976d-0242ac160001', 'Clothes');
+                INSERT INTO category (id, name) VALUES('e7848b57-0a86-11ec-976d-0242ac160002', 'Recreation');
+                CREATE TABLE attribute_type (id uuid PRIMARY KEY, name VARCHAR (255) NOT NULL);
+                CREATE INDEX attribute_type_idx ON attribute_type (name);
+                INSERT INTO attribute_type (id, name) VALUES('e7848b57-0a86-11ec-976d-0242ac160000', 'Color');
+                INSERT INTO attribute_type (id, name) VALUES('e7848b57-0a86-11ec-976d-0242ac160001', 'Material');
+                INSERT INTO attribute_type (id, name) VALUES('e7848b57-0a86-11ec-976d-0242ac160002', 'Country');
+                CREATE TABLE attribute (id uuid PRIMARY KEY, attribute_type_id uuid NOT NULL, value VARCHAR (255) NOT NULL);
+                CREATE UNIQUE INDEX attribute_value_idx ON attribute (attribute_type_id, value);
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161000', 'e7848b57-0a86-11ec-976d-0242ac160000', 'Red');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161001', 'e7848b57-0a86-11ec-976d-0242ac160000', 'Blue');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161002', 'e7848b57-0a86-11ec-976d-0242ac160000', 'Yellow');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161003', 'e7848b57-0a86-11ec-976d-0242ac160001', 'Steel');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161004', 'e7848b57-0a86-11ec-976d-0242ac160001', 'Aluminum');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161005', 'e7848b57-0a86-11ec-976d-0242ac160001', 'Cotton');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161006', 'e7848b57-0a86-11ec-976d-0242ac160001', 'Synthetics');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161007', 'e7848b57-0a86-11ec-976d-0242ac160002', 'Russia');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161008', 'e7848b57-0a86-11ec-976d-0242ac160002', 'Germany');
+                INSERT INTO attribute (id, attribute_type_id, value) VALUES('e7848b57-0a86-11ec-976d-0242ac161009', 'e7848b57-0a86-11ec-976d-0242ac160002', 'China');
+                CREATE TABLE product_attribute (id SERIAL PRIMARY KEY, product_id uuid NOT NULL, attribute_id uuid NOT NULL, CONSTRAINT product_attribute_con unique(product_id, attribute_id));
+                CREATE UNIQUE INDEX product_attribute_idx ON product_attribute (product_id, attribute_id);
+                CREATE TABLE processed_command (id uuid PRIMARY KEY);
+                CREATE TABLE stored_event (id uuid PRIMARY KEY, status INT NOT NULL, type VARCHAR (255) NOT NULL, body JSON NOT NULL);
                 CREATE INDEX status_idx ON stored_event (status);
               EOF
 
